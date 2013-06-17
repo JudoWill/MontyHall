@@ -9,7 +9,9 @@ import random
 
 def step_one(request):
 
-    print request.method
+
+    imgs = list()
+
     if request.method == 'POST':
         form = GuessForm(request.POST)
         if form.is_valid():
@@ -23,12 +25,10 @@ def step_one(request):
 
             return HttpResponseRedirect('/play/step_two.html')
     else:
-        print 'before', request.session['guess_1']
         correct = random.choice([1, 2, 3])
         request.session['correct'] = correct
         request.session['guess_1'] = 0
         request.session['guess_2'] = 0
-        print 'after', request.session['guess_1']
         form = GuessForm()
 
     return render(request, 'step_one.html', {'GuessForm': form})

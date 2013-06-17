@@ -13,5 +13,8 @@ class Round(models.Model):
 
 class PrizeImages(models.Model):
 
-    winning_prize = models.BooleanField(default=False)
+    image_type = models.CharField(max_length=10,
+                                    choices=[('door', 'door'),
+                                                ('win', 'win'),
+                                                ('lose', 'lose')])
     img = models.ImageField(upload_to='images/')
