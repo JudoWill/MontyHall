@@ -5,6 +5,32 @@ from monty.forms import ImageGuestForm
 from monty.models import Round, PrizeImages
 from monty.utils import encode_answer, decode_answer, safe_reveal
 import random
+from collections import defaultdict
+
+
+def stats(request):
+
+    this_player = request.session.get('player', None)
+    nplays = defaultdict(int)
+    nwins = defaultdict(int)
+    for row in Round.objects.all():
+        nplays[row.player] += 1
+        nwins[row.player] += row.is_win
+    results = []
+    for player in nplays.keys():
+        results.append({
+            'player': player,
+            'nplays': nplays[player],
+            'nwins': nwins[player],
+            'perc': 100*float(nwins[player])/float(nplays[player]),
+            'is_player': player == this_player
+        })
+    results.sort(key=lambda x: x['perc'], reverse=True)
+    tdict = {
+        'results': results
+    }
+    return render(request, 'stats.html', tdict)
+
 
 
 def step_one(request):

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block pagetitle %}{{ win_lose }}{% endblock %}
+{% block Title %}{{ win_lose }}{% endblock %}
+{% block content %}
+<table>
+<tr>
+    <td>Player</td>
+    <td># Plays</td>
+    <td># Wins</td>
+    <td>Win Rate</td>
+</tr>
+{% for row in results %}
+<tr>
+    <td>{% if row.is_player %}<b>{{ row.player }}</b>{% else %}{{ row.player }}{% endif %}</td>
+    <td>{{ row.nplays }}</td>
+    <td>{{ row.nwins }}</td>
+    <td>{{ row.perc }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+
+{% endblock %}
