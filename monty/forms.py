@@ -31,17 +31,19 @@ class HorizontalRadioRenderer(forms.RadioSelect.renderer):
         return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
 
 
-def ImageGuestForm(image_list):
+def ImageGuestForm(image_list, hide_player):
 
     choices = make_img_choices(image_list)
 
-    class _GuessForm(forms.Form):
-        guess = forms.ChoiceField(choices=choices,
+    if hide_player:
+        class _GuessForm(forms.Form):
+            player = forms.CharField(max_length=50, widget=forms.HiddenInput)
+            guess = forms.ChoiceField(choices=choices,
+                              widget=forms.RadioSelect(renderer=HorizontalRadioRenderer))
+
+    else:
+        class _GuessForm(forms.Form):
+            player = forms.CharField(max_length=50)
+            guess = forms.ChoiceField(choices=choices,
                               widget=forms.RadioSelect(renderer=HorizontalRadioRenderer))
     return _GuessForm
-
-class GuessForm(forms.Form):
-
-    guess = forms.ChoiceField(choices=[(1, 1), (2, 2), (3, 3)],
-                              widget=forms.RadioSelect)
-

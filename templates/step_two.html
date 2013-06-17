@@ -12,9 +12,13 @@
         <li>The player wins if they have chosen the door hiding the prize.</li>
     </ul>
 
+<p>You picked door #{{ guess }}!</p>
+<p>Monty tells you the prize is NOT behind <b>door #{{ reveal }}</b></p>
+<p>Will you <b>stick</b> or <i>switch</i>?</p>
+
 <form action="/play/step_two.html" method="POST">{% csrf_token %}
 
-    {{ GuessForm.as_p }}
+    {{ GuessForm.as_ul }}
 <input type="submit" value="Submit" />
 </form>
 
