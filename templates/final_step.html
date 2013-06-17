@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block pagetitle %}{{ win_lose }}{% endblock %}
+{% block Title %}{{ win_lose }}{% endblock %}
+{% block content %}
+<p>This is a simple page to play the Monty Hall Game.</p>
+<p>The rules are very simple:</p>
+    <ul>
+        <li>There are three doors. One has a prize and the other two are losers.</li>
+        <li>The player picks one of three doors.</li>
+        <li>Monty will open one of the other doors.</li>
+        <li>The player then has the oppurtnity to switch thier choice or stick.</li>
+        <li><b>The player wins if they have chosen the door hiding the prize.</b></li>
+    </ul>
+
+<p><b>{{ win_lose }}</b></p>
+<p><b>{{ advice }}</b></p>
+
+{% for door in doors %}
+<img src="{{ door.img.url }}" alt="Door {{ forloop.counter }}" title="Door {{ forloop.counter }}" width="85" height="200">
+{% endfor %}
+
+<p>Try your luck again?</p>
+<p><a href="/play/step_one.html">Play Again</a></p>
+
+{% endblock %}

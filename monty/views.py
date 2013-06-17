@@ -58,10 +58,8 @@ def step_two(request):
                         first_guess=request.session['guess_1'],
                         second_guess=guess)
             obj.save()
-            if guess == int(request.session['correct']):
-                return HttpResponseRedirect('/play/you_win.html')
-            else:
-                return HttpResponseRedirect('/play/you_lose.html')
+            request.session['guess_2'] = guess
+            return HttpResponseRedirect('/play/final_step.html')
     else:
         initial = {
             'guess': request.session['guess_1'],
@@ -77,11 +75,31 @@ def step_two(request):
     return render(request, 'step_two.html', tdict)
 
 
-def you_win(request):
+def final_step(request):
 
-    return render(request, 'you_win.html', {})
+    doors = request.session['doors']
+    if request.session['guess_2'] == request.session['correct']:
+        win_lose = 'You WON!'
+        ndoor = PrizeImages.objects.filter(image_type='win').order_by('?')[0]
+        if request.session['guess_2'] == request.session['guess_1']:
+            advice = 'Good thing you STUCK!'
+        else:
+            advice = 'Good thing you SWITCHED!'
+    else:
+        win_lose = 'You LOST!'
+        ndoor = PrizeImages.objects.filter(image_type='lose').order_by('?')[0]
+        if request.session['guess_2'] == request.session['guess_1']:
+            advice = 'You should have SWITCHED!'
+        else:
+            advice = 'You should have STUCK!'
 
+    doors[request.session['guess_2']-1] = ndoor
+    tdict = {
+        'doors': doors,
+        'win_lose': win_lose,
+        'advice': advice
 
-def you_lost(request):
+    }
 
-    return render(request, 'you_lost.html', {})
+    return render(request, 'final_step.html', tdict)
+
