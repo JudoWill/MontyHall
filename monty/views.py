@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect
-from monty.forms import GuessForm
+from monty.forms import GuessForm, ImageGuestForm
 from monty.models import Round, PrizeImages
 from monty.utils import encode_answer, decode_answer, safe_reveal
 import random
@@ -9,11 +9,8 @@ import random
 
 def step_one(request):
 
-
-    imgs = list()
-
     if request.method == 'POST':
-        form = GuessForm(request.POST)
+        form = ImageGuestForm(request.session['doors'])
         if form.is_valid():
             print request.session['guess_1']
             reveal = safe_reveal(request.session['correct'], form.cleaned_data['guess'])
@@ -29,9 +26,16 @@ def step_one(request):
         request.session['correct'] = correct
         request.session['guess_1'] = 0
         request.session['guess_2'] = 0
-        form = GuessForm()
+        doors = PrizeImages.objects.filter(image_type='door').order_by('?')
+        request.session['doors'] = list(doors[:3])
+        form = ImageGuestForm(request.session['doors'])
 
-    return render(request, 'step_one.html', {'GuessForm': form})
+    tdict = {
+        'GuessForm': form,
+        'doors': request.session['doors'],
+    }
+
+    return render(request, 'step_one.html', tdict)
 
 
 def step_two(request):

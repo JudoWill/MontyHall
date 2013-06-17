@@ -16,4 +16,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'MontyHall.views.home', name='home'),
+    (r'^media_url/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': '/home/will/MontyHall/images/'}),
 )

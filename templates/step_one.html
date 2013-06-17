@@ -13,8 +13,7 @@
     </ul>
 
 <form action="/play/step_one.html" method="POST">{% csrf_token %}
-
-    {{ GuessForm.as_p }}
+ {{ GuessForm.as_ul }}
 <input type="submit" value="Submit" />
 </form>
 
