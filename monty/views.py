@@ -56,7 +56,8 @@ def step_two(request):
             obj = Round(player=form.cleaned_data['player'],
                         prize_loc=request.session['correct'],
                         first_guess=request.session['guess_1'],
-                        second_guess=guess)
+                        second_guess=guess,
+                        is_win=request.session['correct'] == guess)
             obj.save()
             request.session['guess_2'] = guess
             return HttpResponseRedirect('/play/final_step.html')
@@ -93,11 +94,19 @@ def final_step(request):
         else:
             advice = 'You should have STUCK!'
 
+
+    nplays = Round.objects.filter(player=request.session['player']).count()
+    n_wins = Round.objects.filter(player=request.session['player']).filter(is_win=True).count()
+    win_percentage = 100*float(n_wins)/float(nplays)
+
     doors[request.session['guess_2']-1] = ndoor
     tdict = {
         'doors': doors,
         'win_lose': win_lose,
-        'advice': advice
+        'advice': advice,
+        'nplays': nplays,
+        'n_wins': n_wins,
+        'win_per': win_percentage
 
     }
 

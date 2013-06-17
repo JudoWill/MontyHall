@@ -9,6 +9,7 @@ class Round(models.Model):
     prize_loc = models.IntegerField()
     first_guess = models.IntegerField()
     second_guess = models.IntegerField(null=True, blank=True)
+    is_win = models.BooleanField()
 
 
 class PrizeImages(models.Model):

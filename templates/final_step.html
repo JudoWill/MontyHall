@@ -20,6 +20,11 @@
 {% endfor %}
 
 <p>Try your luck again?</p>
+<ul>
+    <li>You've played {{ nplays }} games.</li>
+    <li>You've won {{ n_wins }} times.</li>
+    <li>Your win percentage is {{ win_per }}%</li>
+</ul>
 <p><a href="/play/step_one.html">Play Again</a></p>
 
 {% endblock %}
