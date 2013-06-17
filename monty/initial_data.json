@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "monty.prizeimages", "fields": {"winning_prize": true, "img": "images/retro-old-car-oldtimer.jpg"}}, {"pk": 2, "model": "monty.prizeimages", "fields": {"winning_prize": false, "img": "images/01_16_13_web.jpg"}}, {"pk": 3, "model": "monty.prizeimages", "fields": {"winning_prize": true, "img": "images/909_31_193_web.jpg"}}]
